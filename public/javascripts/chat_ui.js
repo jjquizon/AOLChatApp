@@ -18,7 +18,12 @@
 
   ChatApp.sendMessages = function (event) {
     event.preventDefault();
-    chat.sendMessage(ChatApp.getMessages());
+    var input = ChatApp.getMessages();
+    if (input.slice(0, 1) === "/") {
+      ChatApp.processCommand(socket, input);
+    } else {
+      chat.sendMessage(input);
+    }
   };
 
   ChatApp.displayMessages = function (data) {
@@ -30,5 +35,14 @@
     socket.on("message", function (data) {
       ChatApp.displayMessages(data);
     });  
+    
+    socket.on("changeNickname", function (data) {
+      // if (data.status = "approved") {
+//         ChatApp.displayMessages(data);
+//       } else {
+//         ChatApp.displayMessages(data);
+//       }
+      ChatApp.displayMessages(data);
+    })
   });
 })();
