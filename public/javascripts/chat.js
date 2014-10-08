@@ -20,12 +20,12 @@
       socket.emit("changeRoomRequest", {
         room: command.slice(6)
       });
-    } else if (command.slice(0, 5) === "/room") {
-      socket.emit("getRoomData", {});
     } else {
       socket.emit("invalidCommand", {});
     }
   };
+
+  
 
 
 })();

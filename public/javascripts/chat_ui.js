@@ -30,7 +30,26 @@
 
   ChatApp.displayUserlist = function (data) {
     $('.userlist').empty();
-    
+    roomsHash = data.users;
+    console.log('listening');
+    console.log(data.users)
+    for(var room in roomsHash) {
+      console.log('for');
+      if (roomsHash[room].length > 0) {
+        console.log('if');
+        var appending = '<li><strong>' + room +'</strong></li>';
+        $appending = $(appending);
+        roomsHash[room].forEach(function (user) {
+          var user_append = '<li>' + user + '</li>';
+          $appending.append(user_append);
+        });
+
+
+        $('.userlist').append($appending);
+
+      }
+    }
+
   };
 
   $(document).ready(function (){
@@ -56,7 +75,6 @@
     socket.on('disconnect', function (socket) {
       socket: socket
     });
-
 
   });
 })();
