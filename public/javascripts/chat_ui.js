@@ -2,18 +2,16 @@
   if(typeof ChatApp === "undefined"){
     window.ChatApp = {};
   }
-  
+
   var socket = io('http://localhost');
 
   var chat = new ChatApp.Chat(socket);
 
   ChatApp.getMessages = function () {
-    // event.preventDefault();
-    // return $(event.target).val();
     var $input = $('input');
     var inputText = $input.val();
     $input.val('');
-    return inputText; 
+    return inputText;
   };
 
   ChatApp.sendMessages = function (event) {
@@ -27,22 +25,38 @@
   };
 
   ChatApp.displayMessages = function (data) {
-    $('.messages').prepend('<li>' + data.message + '</li>');
+    $('.messages').append('<li>' + data.sender + ": "+ data.message + '</li>');
+  };
+
+  ChatApp.displayUserlist = function (data) {
+    $('.userlist').empty();
+    
   };
 
   $(document).ready(function (){
     $('form').on("submit", ChatApp.sendMessages);
+
     socket.on("message", function (data) {
       ChatApp.displayMessages(data);
-    });  
-    
+    });
+
     socket.on("changeNickname", function (data) {
-      // if (data.status = "approved") {
-//         ChatApp.displayMessages(data);
-//       } else {
-//         ChatApp.displayMessages(data);
-//       }
+      // if (data.status === "approved") {
+      //   ChatApp.displayMessages(data);
+      // } else {
+      //   ChatApp.displayMessages(data);
+      // }
       ChatApp.displayMessages(data);
-    })
+    });
+
+    socket.on('roomList', function (data) {
+      ChatApp.displayUserlist(data);
+    });
+
+    socket.on('disconnect', function (socket) {
+      socket: socket
+    });
+
+
   });
 })();

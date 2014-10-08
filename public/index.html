@@ -1,25 +1,41 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
     <script type="text/javascript" src="javascripts/jquery-2.1.1.js"></script>
-    
+
     <script src="/socket.io/socket.io.js"></script>
 
-    
+
     <script type="text/javascript" src="javascripts/chat.js"></script>
     <script type="text/javascript" src="javascripts/chat_ui.js"></script>
-    
+
   </head>
   <body>
-    <div>
-      <h1>Mike and Jeff's Chat App</h1>
-      <form>
-        <input type="text">
-        <button>Submit</button>
-      </form>
-    </div>
-    <div>
-      <ul class="messages"></ul>
-    </div>
+    <main class="col-xs-10 col-xs-offset-1" >
+      <section class>
+        <div class="row">
+          <h1>Chat App</h1>
+          <p>Change your name using "/nick [new nickname] " </p>
+          <form>
+            <input type="text">
+            <button>Submit</button>
+          </form>
+        </div>
+      </section>
+      <div class="row">
+        <p></p>
+      </div>
+      <section class="row">
+        <div class="col-xs-6">
+          <ul class="messages" style="list-style-type: none; float: left; padding-left: 0px"></ul>
+        </div>
+        <div style="col-xs-6">
+          <h4>Userlist</h4>
+          <ul class="userlist" style="list-style-type: none;"></ul>
+        </div>
+      </section>
+  </main>
   </body>
 </html>
