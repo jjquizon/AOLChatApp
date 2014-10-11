@@ -19,6 +19,10 @@
     var input = ChatApp.getMessages();
     if (input.slice(0, 1) === "/") {
       ChatApp.processCommand(socket, input);
+    } else if (input === ""){
+      ChatApp.displayMessages({
+
+      });
     } else {
       chat.sendMessage(input);
     }
@@ -28,28 +32,64 @@
     $('.messages').append('<li>' + data.sender + ": "+ data.message + '</li>');
   };
 
+  ChatApp.refresh = function () {
+    data = ChatApp.currentData();
+    ChatApp.displayUserlist(data);
+    ChatApp.displayChatTabs(data);
+  };
+
   ChatApp.displayUserlist = function (data) {
-    $('.userlist').empty();
+    $userlist = $('.userlist');
+    $chatroom = $('#chatroom-title');
+    $chatroom.empty();
+    $userlist.empty();
     roomsHash = data.users;
-    console.log('listening');
-    console.log(data.users)
     for(var room in roomsHash) {
-      console.log('for');
       if (roomsHash[room].length > 0) {
-        console.log('if');
-        var appending = '<li><strong>' + room +'</strong></li>';
-        $appending = $(appending);
+        var appending = '<strong>' + room + ' (' + roomsHash[room].length + ')</strong>';
+        $chatroom.append(appending);
         roomsHash[room].forEach(function (user) {
           var user_append = '<li>' + user + '</li>';
-          $appending.append(user_append);
+          $userlist.append(user_append);
         });
+      }
+    }
+  };
 
+  ChatApp.displayChatTabs = function (data) {
+    var appending;
+    var numOfRooms = 0;
+    var roomsHash = data.users;
+    $chatTabList = $("#chat-tabs-list");
+    $chatTabList.empty();
 
-        $('.userlist').append($appending);
-
+    for(var room in roomsHash) {
+      if (roomsHash[room].indexOf(ChatApp.currentUser()) !== -1){
+        numOfRooms += 1;
+        appending = "<li id=" + room + "><a class='chat-tab'>" + room + "</a></li>";
+        $chatTabList.append(appending);
       }
     }
 
+    if (numOfRooms == 1) {
+      ChatApp.setActiveTab("Lobby");
+    }
+  };
+
+  ChatApp.currentData = function (data) {
+    if (data) {
+      this._currentData = data;
+    }
+
+    return this._currentData;
+  };
+
+  ChatApp.setActiveTab = function (tab) {
+    if (tab) {
+      this._activeTab = tab;
+    }
+    var tabId = "#" + tab;
+    $(document).find(tabId).addClass('active');
   };
 
   $(document).ready(function (){
@@ -60,21 +100,26 @@
     });
 
     socket.on("changeNickname", function (data) {
-      // if (data.status === "approved") {
-      //   ChatApp.displayMessages(data);
-      // } else {
-      //   ChatApp.displayMessages(data);
-      // }
       ChatApp.displayMessages(data);
     });
 
     socket.on('roomList', function (data) {
-      ChatApp.displayUserlist(data);
+      ChatApp.currentData(data);
+      ChatApp.refresh();
     });
 
     socket.on('disconnect', function (socket) {
       socket: socket
     });
 
+    socket.on('currentName', function (data) {
+      ChatApp.currentUser(data);
+    });
+
+    $(".chat-tab").click(function(event){
+      event.preventDefault();
+    });
+
+    ChatApp.setActiveTab("Lobby");
   });
 })();

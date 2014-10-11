@@ -16,16 +16,21 @@
       socket.emit("changeNickname", {
         nickname: command.slice(6)
       });
-    } else if (command.slice(0, 5) === "/join"){
-      socket.emit("changeRoomRequest", {
-        room: command.slice(6)
-      });
-    } else {
+    }
+    else {
       socket.emit("invalidCommand", {});
     }
   };
 
-  
+  ChatApp.currentUser = function (data) {
+    if (data) {
+      this._currentUser = data.currentName;
+    }
+
+    return this._currentUser;
+  };
+
+
 
 
 })();
