@@ -65,6 +65,7 @@ div.header-bar {
   background: white;
   height:475px;
   border-radius: 5px;
+  overflow-y: scroll;
 }
 
 div.chatroom-info {
@@ -93,6 +94,7 @@ ul.userlist {
   background: white;
   padding: 1px 1px 1px 5px;
   height: 200px;
+  overflow-y: scroll;
 }
 
 .chat-tab {
