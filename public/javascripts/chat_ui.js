@@ -29,7 +29,7 @@
   };
 
   ChatApp.displayMessages = function (data) {
-    $('.messages').append('<li>' + data.sender + ": "+ data.message + '</li>');
+    $('.messages').append('<li><strong>' + data.sender + ":</strong> "+ data.message + '</li>');
   };
 
   ChatApp.refresh = function () {
