@@ -3,7 +3,7 @@
     window.ChatApp = {};
   }
 
-  var socket = io('http://localhost');
+  var socket = io();
 
   var chat = new ChatApp.Chat(socket);
 
