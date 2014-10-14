@@ -1,16 +1,15 @@
 {
   "name": "AOLChatApp",
-  "version": "0.0.0",
-  "description": "",
+  "version": "0.0.1",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "Jeffrey Quizon",
   "license": "ISC",
   "dependencies": {
-    "socket.io": "1.1.0",
     "mime": "~1.2.7",
-    "node-static": "^0.7.4"
+    "node-static": "^0.7.4",
+    "socket.io": "1.0.x"
   }
 }
